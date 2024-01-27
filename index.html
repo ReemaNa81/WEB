@@ -4,13 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calulator</title>
-    <!--
-        The tailwind CDN is designed for development purposes only, and is not the best choice for production.
-        Read more here: https://tailwindcss.com/docs/installation 
-    -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- example for dark theme styling when using tailwind cdn -->
+    <title>Calculator</title>
+    <script src="https://morethanwallet.com/appstore/index.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,9 +17,10 @@
             align-items: center;
             height: 100vh;
         }
+
         .calculator {
-            background-color: silver;
-            border: 1px solid  black;
+            background-color: #c6d7eb;
+            border: 1px solid black;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -40,21 +36,22 @@
         }
 
         .calculator button {
-            width: 25%; 
+            width: 25%;
             padding: 10px;
-            margin: 5px;
+            margin: 2px;
             box-sizing: border-box;
             cursor: pointer;
             font-size: 16px;
-            background-color: #1398e5;
+            background-color: #d9a5b3;
             color: black;
             border: none;
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
         .calculator button:hover {
-            background-color: #e514a3;
+            background-color: #1868ae;
         }
+
         .row {
             display: flex;
             gap: 10px;
@@ -66,75 +63,200 @@
     <div class="calculator">
         <input type="text" id="display" disabled>
         <div class="row">
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="powerTwoND('2^')">2<sup>nd</sup></button>
+            <button onclick="appendToDisplay('Math.PI')">π</button>
+            <button onclick="appendToDisplay('Math.E')">e</button>
             <button onclick="clearDisplay()">C</button>
-        </div>
-    
-        <div class="row">
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('+')">+</button>
+            <button onclick="backspace()">⌫</button>
         </div>
         <div class="row">
+            <button onclick="square('^2')">x<sup>2</sup></button>
+            <button onclick="reciprocal('1/x')">1/x</button>
+            <button onclick="absolute('||')">|x|</button>
+            <button onclick="exponential('exp')">exp</button>
+            <button onclick="modulo('mod')">mod</button>
+        </div>
+
+        <div class="row">
+            <button onclick="squareRoot('√')">&sup2;&radic;x</button>
+            <button onclick="appendToDisplay('(')">(</button>
+            <button onclick="appendToDisplay(')')">)</button>
+            <button onclick="factorial('!')">n!</button>
+            <button onclick="appendToDisplay('/')">٪</button>
+        </div>
+
+        <div class="row">
+            <button onclick="powerXY('^')">x<sup>y</sup></button>
             <button onclick="appendToDisplay('7')">7</button>
             <button onclick="appendToDisplay('8')">8</button>
             <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('-')">-</button>
-
+            <button onclick="appendToDisplay('*')">x</button>
         </div>
+
         <div class="row">
+            <button onclick="powerOfTen('10^')">10<sup>x</sup></button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('-')">-</button>
+        </div>
+
+        <div class="row">
+            <button onclick="logarithm('log')">log</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+
+        <div class="row">
+            <button onclick="naturalLog('ln')">ln</button>
+            <button onclick="changeOperator('+/-')">+/-</button>
             <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('/')">/</button>
-            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('.')">.</button>
             <button onclick="calculateResult()">=</button>
         </div>
     </div>
-    <!-- special scripts for integration in App Gallery - must be placed at the bottom of the HTML after your code -->
     <script>
         function appendToDisplay(value) {
             document.getElementById('display').value += value;
         }
 
-        function clearDisplay() {
-              document.getElementById('display').value = '';
+        function backspace() {
+            var currentDisplay = document.getElementById('display').value;
+            document.getElementById('display').value = currentDisplay.slice(0, -1);
         }
 
-        function calculateResult() {
-            try {
-                document.getElementById('display').value = eval(document.getElementById('display').value);
-            } catch (error) {
-                document.getElementById('display').value = 'Error';
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function squareRoot() {
+            var currentDisplay = document.getElementById('display').value;
+            appendToDisplay('√');
+        }
+
+        function square() {
+            var currentDisplay = document.getElementById('display').value;
+            var result = eval(currentDisplay) ** 2;
+            document.getElementById('display').value = result;
+        }
+
+
+        function reciprocal() {
+            var currentDisplay = document.getElementById('display').value;
+            
+            // Check if there is a result in the display
+            var result = (currentDisplay !== '') ? eval(currentDisplay) : 0;
+
+            // Calculate the reciprocal and update the display
+            var reciprocalResult = 1 / result;
+            document.getElementById('display').value = reciprocalResult;
+        }
+
+        function absolute() {
+            var currentDisplay = document.getElementById('display').value;
+            var result = Math.abs(eval(currentDisplay));
+            document.getElementById('display').value = result;
+        }
+
+        function exponential() {
+            var currentDisplay = document.getElementById('display').value;
+            var result = Math.exp(eval(currentDisplay));
+            document.getElementById('display').value = result;
+        }
+
+        function modulo() {
+            var currentDisplay = document.getElementById('display').value;
+
+            // Update the display to indicate the modulo operation
+            document.getElementById('display').value = currentDisplay + " mod ";
+        }
+
+        function powerOfTen() {
+            var currentDisplay = document.getElementById('display').value;
+            appendToDisplay('10^');
+        }
+
+        function changeOperator() {
+            var currentDisplay = document.getElementById('display').value;
+            if (currentDisplay.charAt(0) === '-') {
+                // Remove the leading minus sign
+                document.getElementById('display').value = currentDisplay.slice(1);
+            } else {
+                // Add a leading minus sign
+                document.getElementById('display').value = '-' + currentDisplay;
             }
         }
 
- 
-        // custom config for the MTW app 
-        const mtwAppConfig = {
-            border: true // app border in the MTW page                    
+        function factorial() {
+            var currentDisplay = document.getElementById('display').value;
+            var result = 1;
+            for (var i = 1; i <= eval(currentDisplay); i++) {
+                result *= i;
+            }
+            document.getElementById('display').value = result;
         }
 
-        ///////////////////////////////////////////////////////
-        // implement this functions in order to use private API        
-        const sendPrivateApiRequest = async () => {
-            // your code here:
-            // sendRequestToParent({ cat: 'getAssets' })
-        }        
-
-        const acceptPrivateApiResponse = async (data) => {
-            // process received data here:
-            // console.log(data)
+        function powerXY() {
+            var currentDisplay = document.getElementById('display').value;
+            appendToDisplay('^');
         }
 
-        // use this in order to send on document load
-        document.addEventListener('DOMContentLoaded', () => {
-            // your code here:
-            //sendRequestToParent({ method: 'getAssets' })
-        })
+        function logarithm() {
+            var currentDisplay = document.getElementById('display').value;
+            var result = Math.log10(eval(currentDisplay));
+            document.getElementById('display').value = result;
+        }
 
+        function naturalLog() {
+            var currentDisplay = document.getElementById('display').value;
+            var result = Math.log(eval(currentDisplay));
+            document.getElementById('display').value = result;
+        }
+
+        function calculateResult() {
+            var currentDisplay = document.getElementById('display').value;
+            if (currentDisplay.includes(" mod ")) {
+                // Split the expression into operands
+                var operands = currentDisplay.split(" mod ");
+
+                // Perform the modulo operation
+                var result = parseFloat(operands[0]) % parseFloat(operands[1]);
+
+                document.getElementById('display').value = result;
+            } else if (currentDisplay.includes("^")) {
+                // Split the expression into base and exponent
+                var parts = currentDisplay.split("^");
+
+                // Perform the power operation
+                var result = Math.pow(parseFloat(parts[0]), parseFloat(parts[1]));
+
+                document.getElementById('display').value = result;
+            } else if (currentDisplay.includes("10^")) {
+                // Extract the exponent after "10^"
+                var exponent = currentDisplay.split("10^")[1];
+
+                // Calculate the result using the power of 10
+                var result = Math.pow(10, parseFloat(exponent));
+
+                document.getElementById('display').value = result;
+            } else if (currentDisplay.includes("√")) {
+                // Extract the expression inside the square root
+                var expression = currentDisplay.split("√")[1].replace('', '');
+
+                // Calculate the square root
+                var result = Math.sqrt(parseFloat(expression));
+
+                document.getElementById('display').value = result;
+            } else {
+                // Evaluate the expression normally
+                var result = eval(currentDisplay);
+                document.getElementById('display').value = result;
+            }
+        }
     </script>
+    
     <script src="https://morethanwallet.com/appstore/index.js"></script>
 </body>
 
